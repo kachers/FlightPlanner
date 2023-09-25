@@ -1,0 +1,82 @@
+# Ignore Visual Studio files
+.vscode/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nuget.props
+*.paket.props
+*.paket.targets
+project.lock.json
+packages/
+artifacts/
+
+# Ignore build and publish web specific files
+publish/
+wwwroot/dist/
+wwwroot/node_modules/
+ClientApp/node_modules/
+npm-debug.log
+
+# Ignore user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore ReSharper R# Cache, SWEA, Rider
+_ReSharper*/
+.idea*/
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore Rider
+.idea/
+.idea/
+
+# Ignore Rider and Visual Studio code styles
+.vscode/
+.idea/codeStyles/
+
+# Ignore Mono-specific files
+mono_crash.*
+
+# Ignore Visual Studio test results
+TestResults/
+[Tt]est[Rr]esult*/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Ignore Rider and Visual Studio files
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore generated files
+*.log
+*.vsix
+*.nupkg
+*.pfx
+
+# Ignore Roslyn cache directories
+RoslynCodeAnalysisCaches/
+
+# Ignore StyleCop settings file
+Settings.StyleCop
+
+# Ignore Rider and Visual Studio directories
+.idea/
+.vscode/

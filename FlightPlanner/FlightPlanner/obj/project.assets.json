@@ -442,11 +442,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\john\\Source\\Repos\\FlightPlanner\\FlightPlanner\\FlightPlanner\\FlightPlanner.csproj",
+      "projectUniqueName": "C:\\Users\\john\\source\\repos\\FlightPlanner\\FlightPlanner\\FlightPlanner.csproj",
       "projectName": "FlightPlanner",
-      "projectPath": "C:\\Users\\john\\Source\\Repos\\FlightPlanner\\FlightPlanner\\FlightPlanner\\FlightPlanner.csproj",
+      "projectPath": "C:\\Users\\john\\source\\repos\\FlightPlanner\\FlightPlanner\\FlightPlanner.csproj",
       "packagesPath": "C:\\Users\\john\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\john\\Source\\Repos\\FlightPlanner\\FlightPlanner\\FlightPlanner\\obj\\",
+      "outputPath": "C:\\Users\\john\\source\\repos\\FlightPlanner\\FlightPlanner\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\john\\AppData\\Roaming\\NuGet\\NuGet.Config",

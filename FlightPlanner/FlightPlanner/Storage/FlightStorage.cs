@@ -50,7 +50,6 @@ public class FlightStorage
             throw new DuplicateFlightException();
         }
 
-        //flight.Id = _id++;
         _context.Flights.Add(flight);
         _context.SaveChanges();
     }
@@ -62,7 +61,7 @@ public class FlightStorage
             .Include(f => f.To)
             .SingleOrDefault(f => f.Id == id);
 
-        return flight == null ? throw new InvalidFlightException() : flight;
+        return flight ?? throw new InvalidFlightException();
     }
 
     public void DeleteFlight(int id)

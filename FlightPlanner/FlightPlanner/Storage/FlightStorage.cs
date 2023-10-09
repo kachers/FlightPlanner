@@ -1,13 +1,17 @@
 ﻿using FlightPlanner.Exceptions;
-using FlightPlanner.Exceptions;
 using FlightPlanner.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightPlanner.Storage;
 
 public class FlightStorage
 {
-    private static List<Flight> _flightStorage = new();
-    private static int _id;
+    private readonly FlightPlannerDbContext _context;
+
+    public FlightStorage(FlightPlannerDbContext context)
+    {
+        _context = context;
+    }
 
     public void AddFlight(Flight flight)
     {
@@ -36,7 +40,7 @@ public class FlightStorage
             throw new InvalidFlightException();
         }
 
-        var duplicate = _flightStorage.Where(f =>
+        var duplicate = _context.Flights.Where(f =>
             f.To.AirportCode.Equals(flight.To.AirportCode) && 
             f.From.AirportCode.Equals(flight.From.AirportCode) && 
             f.DepartureTime.Equals(flight.DepartureTime)).ToList();
@@ -46,24 +50,29 @@ public class FlightStorage
             throw new DuplicateFlightException();
         }
 
-        flight.Id = _id++;
-        _flightStorage.Add(flight);
+        //flight.Id = _id++;
+        _context.Flights.Add(flight);
+        _context.SaveChanges();
     }
 
     public Flight GetFlight(int id)
     {
-        var result = _flightStorage.FirstOrDefault(flight => flight.Id.Equals(id));
+        var flight = _context.Flights
+            .Include(f => f.From)
+            .Include(f => f.To)
+            .SingleOrDefault(f => f.Id == id);
 
-        return result ?? throw new InvalidFlightException();
+        return flight == null ? throw new InvalidFlightException() : flight;
     }
 
     public void DeleteFlight(int id)
     {
-        var flight = _flightStorage.FirstOrDefault(flight => flight.Id.Equals(id));
+        var flight = _context.Flights.SingleOrDefault(flight => flight.Id == id);
 
         if (flight != null)
         {
-            _flightStorage.RemoveAt(_flightStorage.IndexOf(flight));
+            _context.Flights.Remove(flight);
+            _context.SaveChanges();
         }
     }
 
@@ -72,13 +81,7 @@ public class FlightStorage
         search = search.Trim();
         var searchTerm = search.ToLower();
 
-        return _flightStorage
-            .Select(flight => new Airport
-            {
-                Country = flight.From.Country,
-                City = flight.From.City,
-                AirportCode = flight.From.AirportCode
-            })
+        return _context.Airports
             .Where(airport =>
                 airport.AirportCode.ToLower().Contains(searchTerm) ||
                 airport.City.ToLower().Contains(searchTerm) ||
@@ -100,7 +103,7 @@ public class FlightStorage
             throw new InvalidFlightException();
         }
 
-        var flights = _flightStorage.Where(flight =>
+        var flights = _context.Flights.Where(flight =>
             flight.From.AirportCode.Equals(req.From) &&
             flight.To.AirportCode.Equals(req.To) &&
             flight.DepartureTime.Contains(req.DepartureDate)).ToList();
@@ -120,6 +123,8 @@ public class FlightStorage
 
     public void Clear()
     {
-        _flightStorage.Clear();
+        _context.Flights.RemoveRange(_context.Flights);
+        _context.Airports.RemoveRange(_context.Airports);
+        _context.SaveChanges();
     }
 }

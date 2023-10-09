@@ -15,9 +15,9 @@ public class AdminApiController : ControllerBase
     private static readonly object DeleteLock = new();
     private readonly FlightStorage _storage;
 
-    public AdminApiController()
+    public AdminApiController(FlightStorage storage)
     {
-        _storage = new FlightStorage();
+        _storage = storage;
     }
 
     [HttpPut]

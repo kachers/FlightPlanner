@@ -1,6 +1,6 @@
 ﻿using FlightPlanner.Exceptions;
-using FlightPlanner.Models;
-using FlightPlanner.Storage;
+using FlightPlanner.Core.Models;
+using FlightPlanner.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +11,13 @@ namespace FlightPlanner.Controllers;
 [ApiController]
 public class AdminApiController : ControllerBase
 {
+    private readonly IDbService _dbService;
     private static readonly object AddLock = new();
     private static readonly object DeleteLock = new();
-    private readonly FlightStorage _storage;
 
-    public AdminApiController(FlightStorage storage)
+    public AdminApiController(IDbService DbService)
     {
-        _storage = storage;
+        _dbService = DbService;
     }
 
     [HttpPut]
@@ -27,7 +27,7 @@ public class AdminApiController : ControllerBase
         {
             try
             {
-                _storage.AddFlight(flight);
+                _dbService.Create(flight);
                 return Created("", flight);
             }
             catch (DuplicateFlightException)
@@ -47,9 +47,9 @@ public class AdminApiController : ControllerBase
     {
         try
         {
-            _storage.GetFlight(id);
+            _dbService.GetById<Flight>(id);
 
-            return Ok(_storage.GetFlight(id));
+            return Ok(_dbService.GetById<Flight>(id));
         }
         catch (InvalidFlightException)
         {
@@ -61,9 +61,10 @@ public class AdminApiController : ControllerBase
     [HttpDelete]
     public IActionResult DeleteFlight(int id)
     {
+        var flight = _dbService.GetById<Flight>(id);
         lock (DeleteLock)
         {
-            _storage.DeleteFlight(id);
+            _dbService.Delete(flight);
         }
 
         return Ok();

@@ -1,7 +1,8 @@
 ﻿using FlightPlanner.Exceptions;
-using FlightPlanner.Models;
+using FlightPlanner.Core.Models;
 using FlightPlanner.Storage;
 using Microsoft.AspNetCore.Mvc;
+using FlightPlanner.Core.Services;
 
 namespace FlightPlanner.Controllers;
 
@@ -9,6 +10,7 @@ namespace FlightPlanner.Controllers;
 [ApiController]
 public class CustomerApiController : ControllerBase
 {
+    private readonly IDbService _dbService;
     private readonly FlightStorage _storage;
 
     public CustomerApiController(FlightStorage storage)
@@ -20,7 +22,7 @@ public class CustomerApiController : ControllerBase
     [HttpGet]
     public IActionResult SearchAirports(string search)
     {
-        return Ok(_storage.SearchAirports(search));
+        return Ok(_dbService.SearchAirports(search));
     }
 
     [Route("flights/search")]
@@ -29,8 +31,8 @@ public class CustomerApiController : ControllerBase
     {
         try
         {
-            _storage.SearchFlights(req);
-            return Ok(_storage.SearchFlights(req));
+            _dbService.SearchFlights(req);
+            return Ok(_dbService.SearchFlights(req));
         }
         catch (DuplicateFlightException)
         {
@@ -48,9 +50,9 @@ public class CustomerApiController : ControllerBase
     {
         try
         {
-            _storage.GetFlight(id);
+            _dbService.GetById<Flight>(id);
 
-            return Ok(_storage.GetFlight(id));
+            return Ok(_dbService.GetById<Flight>(id));
         }
         catch (InvalidFlightException)
         {

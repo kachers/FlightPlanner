@@ -1,6 +1,6 @@
 ﻿namespace FlightPlanner.Core.Models
 {
-    internal class Flight : Entity
+    public class Flight : Entity
     {
         public Airport From { get; set; }
         public Airport To { get; set; }

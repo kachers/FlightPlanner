@@ -1,6 +1,6 @@
 ﻿namespace FlightPlanner.Core.Models
 {
-    internal class Airport : Entity
+    public class Airport : Entity
     {
         public string Country { get; set; }
         public string City { get; set; }

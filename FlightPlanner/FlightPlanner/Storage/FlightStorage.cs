@@ -1,8 +1,4 @@
-﻿using FlightPlanner.Exceptions;
-using FlightPlanner.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace FlightPlanner.Storage;
+﻿namespace FlightPlanner.Storage;
 
 public class FlightStorage
 {
@@ -17,30 +13,13 @@ public class FlightStorage
 
     //public Flight GetFlight(int id) { }
 
-    public void DeleteFlight(int id)
-    {
-        var flight = _context.Flights.SingleOrDefault(flight => flight.Id == id);
+    //public void DeleteFlight(int id) { }
 
-        if (flight != null)
-        {
-            _context.Flights.Remove(flight);
-            _context.SaveChanges();
-        }
-    }
+    //public List<Airport> SearchAirports(string search) { }
 
-    public List<Airport> SearchAirports(string search)
-    {
-        search = search.Trim();
-        var searchTerm = search.ToLower();
 
-        return _context.Airports
-            .Where(airport =>
-                airport.AirportCode.ToLower().Contains(searchTerm) ||
-                airport.City.ToLower().Contains(searchTerm) ||
-                airport.Country.ToLower().Contains(searchTerm))
-            .ToList();
-    }
 
+    /*
     public PageResult SearchFlights(SearchFlightRequest req)
     {
         if (string.IsNullOrEmpty(req.From) ||
@@ -55,23 +34,9 @@ public class FlightStorage
             throw new InvalidFlightException();
         }
 
-        var flights = _context.Flights.Where(flight =>
-            flight.From.AirportCode.Equals(req.From) &&
-            flight.To.AirportCode.Equals(req.To) &&
-            flight.DepartureTime.Contains(req.DepartureDate)).ToList();
 
-        List<Flight> result = new();
-        result.AddRange(flights);
-
-        PageResult pageResult = new PageResult
-        {
-            Page = (int)Math.Floor((decimal)result.Count / 100),
-            TotalItems = result.Count,
-            Items = result
-        };
-
-        return pageResult;
     }
+    */
 
     public void Clear()
     {

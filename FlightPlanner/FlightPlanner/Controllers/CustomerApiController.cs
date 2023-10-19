@@ -1,6 +1,5 @@
 ﻿using FlightPlanner.Exceptions;
 using FlightPlanner.Core.Models;
-using FlightPlanner.Storage;
 using Microsoft.AspNetCore.Mvc;
 using FlightPlanner.Core.Services;
 
@@ -11,18 +10,27 @@ namespace FlightPlanner.Controllers;
 public class CustomerApiController : ControllerBase
 {
     private readonly IDbService _dbService;
-    private readonly FlightStorage _storage;
 
-    public CustomerApiController(FlightStorage storage)
+    public CustomerApiController(IDbService DbService)
     {
-        _storage = storage;
+        _dbService = DbService;
     }
 
     [Route("airports")]
     [HttpGet]
     public IActionResult SearchAirports(string search)
     {
-        return Ok(_dbService.SearchAirports(search));
+        search = search.Trim();
+        var searchTerm = search.ToLower();
+        var allAirports = _dbService.Get<Airport>().ToList();
+
+        var result = allAirports
+            .Where(airport =>
+                airport.AirportCode.ToLower().Contains(searchTerm) ||
+                airport.City.ToLower().Contains(searchTerm) ||
+                airport.Country.ToLower().Contains(searchTerm))
+            .ToList();
+        return Ok(result);
     }
 
     [Route("flights/search")]
@@ -31,8 +39,22 @@ public class CustomerApiController : ControllerBase
     {
         try
         {
-            _dbService.SearchFlights(req);
-            return Ok(_dbService.SearchFlights(req));
+            var flights = _dbService.Get<Flight>().Where(flight =>
+                flight.From.AirportCode.Equals(req.From) &&
+                flight.To.AirportCode.Equals(req.To) &&
+                flight.DepartureTime.Contains(req.DepartureDate)).ToList();
+
+            List<Flight> result = new();
+            result.AddRange(flights);
+
+            PageResult pageResult = new PageResult
+            {
+                Page = (int)Math.Floor((decimal)result.Count / 100),
+                TotalItems = result.Count,
+                Items = result
+            };
+
+            return Ok(pageResult);
         }
         catch (DuplicateFlightException)
         {

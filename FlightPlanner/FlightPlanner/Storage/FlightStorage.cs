@@ -38,10 +38,5 @@ public class FlightStorage
     }
     */
 
-    public void Clear()
-    {
-        _context.Flights.RemoveRange(_context.Flights);
-        _context.Airports.RemoveRange(_context.Airports);
-        _context.SaveChanges();
-    }
+    //public void Clear() { }
 }

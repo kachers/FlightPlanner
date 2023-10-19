@@ -93,5 +93,11 @@ namespace FlightPlanner.Services
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
         }
+
+        public void DeleteRange<T>() where T : Entity
+        {
+            _context.Set<T>().RemoveRange(_context.Set<T>());
+            _context.SaveChanges();
+        }
     };
 }

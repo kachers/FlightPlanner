@@ -1,5 +1,6 @@
 ﻿using FlightPlanner.Core.Models;
 using FlightPlanner.Core.Services;
+using FlightPlanner.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightPlanner.Services
@@ -8,7 +9,7 @@ namespace FlightPlanner.Services
     {
         protected FlightPlannerDbContext _context;
 
-        public DbService(FlightPlannerDbContext context)
+        public DbService(IFlightPlannerDbContext context)
         {
             _context = context;
         }

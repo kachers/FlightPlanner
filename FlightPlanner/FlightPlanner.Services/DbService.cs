@@ -1,6 +1,5 @@
 ﻿using FlightPlanner.Core.Models;
 using FlightPlanner.Core.Services;
-using FlightPlanner.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightPlanner.Services
@@ -35,12 +34,12 @@ namespace FlightPlanner.Services
                 .Include("To")
                 .SingleOrDefault(e => e.Id == id);
 
-            return entity ?? throw new InvalidFlightException();
+            return entity;
         }
 
         public void Create<T>(T entity) where T : Entity
         {
-            if (entity is Flight flight)
+            /*if (entity is Flight flight)
             {
                 if (string.IsNullOrEmpty(flight.To.Country) ||
                     string.IsNullOrEmpty(flight.To.City) ||
@@ -76,7 +75,7 @@ namespace FlightPlanner.Services
                 {
                     throw new DuplicateFlightException();
                 }
-            }
+            }*/
             
             _context.Set<T>().Add(entity);
             _context.SaveChanges();

@@ -1,7 +1,10 @@
-﻿using FlightPlanner.Exceptions;
+﻿using AutoMapper;
+using FlightPlanner.Exceptions;
 using FlightPlanner.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using FlightPlanner.Core.Services;
+using FlightPlanner.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightPlanner.Controllers;
 
@@ -10,10 +13,12 @@ namespace FlightPlanner.Controllers;
 public class CustomerApiController : ControllerBase
 {
     private readonly IDbService _dbService;
+    private readonly IMapper _mapper;
 
-    public CustomerApiController(IDbService DbService)
+    public CustomerApiController(IDbService DbService, IMapper mapper)
     {
         _dbService = DbService;
+        _mapper = mapper;
     }
 
     [Route("airports")]
@@ -30,7 +35,8 @@ public class CustomerApiController : ControllerBase
                 airport.City.ToLower().Contains(searchTerm) ||
                 airport.Country.ToLower().Contains(searchTerm))
             .ToList();
-        return Ok(result);
+        
+        return Ok(result.Select(airport => _mapper.Map<AirportRequest>(airport)).ToList());
     }
 
     [Route("flights/search")]
@@ -39,7 +45,22 @@ public class CustomerApiController : ControllerBase
     {
         try
         {
-            var flights = _dbService.Get<Flight>().Where(flight =>
+            if (string.IsNullOrEmpty(req.From) ||
+                string.IsNullOrEmpty(req.To) ||
+                string.IsNullOrEmpty(req.DepartureDate))
+            {
+                throw new InvalidFlightException();
+            }
+
+            if (req.From.ToLower().Trim().Equals(req.To.ToLower().Trim()))
+            {
+                throw new InvalidFlightException();
+            }
+
+            var flights = _dbService.Query<Flight>()
+                .Include(f => f.From)
+                .Include(f => f.To)
+                .Where(flight =>
                 flight.From.AirportCode.Equals(req.From) &&
                 flight.To.AirportCode.Equals(req.To) &&
                 flight.DepartureTime.Contains(req.DepartureDate)).ToList();
@@ -72,9 +93,8 @@ public class CustomerApiController : ControllerBase
     {
         try
         {
-            _dbService.GetById<Flight>(id);
-
-            return Ok(_dbService.GetById<Flight>(id));
+            var flight = _dbService.GetById<Flight>(id) ?? throw new InvalidFlightException();
+            return Ok(_mapper.Map<FlightRequest>(flight));
         }
         catch (InvalidFlightException)
         {

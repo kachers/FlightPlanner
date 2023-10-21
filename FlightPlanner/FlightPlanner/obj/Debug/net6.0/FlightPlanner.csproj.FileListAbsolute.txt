@@ -132,3 +132,4 @@ C:\Users\john\source\repos\FlightPlanner\FlightPlanner\FlightPlanner\bin\Debug\n
 C:\Users\john\source\repos\FlightPlanner\FlightPlanner\FlightPlanner\bin\Debug\net6.0\FlightPlanner.Core.pdb
 C:\Users\john\source\repos\FlightPlanner\FlightPlanner\FlightPlanner\bin\Debug\net6.0\FlightPlanner.Data.pdb
 C:\Users\john\source\repos\FlightPlanner\FlightPlanner\FlightPlanner\bin\Debug\net6.0\FlightPlanner.Services.pdb
+C:\Users\john\source\repos\FlightPlanner\FlightPlanner\FlightPlanner\bin\Debug\net6.0\AutoMapper.dll

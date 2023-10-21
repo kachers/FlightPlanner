@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ELW9F1r63byLKH56Fr1xK+dnm2095FwJI0slQqGjx0525Pk5qdcqSGbDGupJ0AqzNftxE9gh/3zQQVjh55ELxA==",
+  "dgSpecHash": "AbsupN8K8wUvCdSPAHqklyePMlPBKGXGT07Ek5688mAp2MlRz7wQKbW6GfNkvdxkT8DsH1Gt/SUiCeTHSjhSVA==",
   "success": true,
   "projectFilePath": "C:\\Users\\john\\source\\repos\\FlightPlanner\\FlightPlanner\\FlightPlanner\\FlightPlanner.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\john\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\john\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\john\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\john\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\john\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\john\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\john\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.22\\microsoft.data.sqlite.core.6.0.22.nupkg.sha512",

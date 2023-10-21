@@ -86,13 +86,13 @@ namespace FlightPlanner.Data.Migrations
                     b.HasOne("FlightPlanner.Core.Models.Airport", "From")
                         .WithMany()
                         .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("FlightPlanner.Core.Models.Airport", "To")
                         .WithMany()
                         .HasForeignKey("ToId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("From");

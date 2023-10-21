@@ -23,6 +23,8 @@ namespace FlightPlanner
                     .UseSqlServer(
                         builder.Configuration.GetConnectionString("flight-planner")));
             builder.Services.AddTransient<IDbService, DbService>();
+            var mapper = AutoMapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
             builder.Services.AddSwaggerGen();
             builder.Services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
@@ -38,7 +40,6 @@ namespace FlightPlanner
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

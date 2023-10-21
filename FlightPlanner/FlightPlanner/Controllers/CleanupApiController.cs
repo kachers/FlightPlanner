@@ -1,7 +1,5 @@
 ﻿using FlightPlanner.Core.Models;
 using FlightPlanner.Core.Services;
-using FlightPlanner.Services;
-using FlightPlanner.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightPlanner.Controllers;
@@ -21,6 +19,13 @@ public class CleanupApiController : ControllerBase
     [HttpPost]
     public IActionResult Clear()
     {
+        var flights = _dbService.Query<Flight>().ToList();
+        foreach (var flight in flights)
+        {
+            flight.From = null;
+            flight.To = null;
+            _dbService.Update(flight);
+        }
         _dbService.DeleteRange<Flight>();
         _dbService.DeleteRange<Airport>();
 
